@@ -1,0 +1,9 @@
+{% extends "templates/partials/master.html" %}
+{% block content %}
+<h1>{{ $req.Title }}</h1>
+<p><a href="{{ $req.Url }}">{{ $req.Url }}</a></p>
+<p>
+Created on : {{ $req.Created }}<br>
+Expires on : {{ $req.Expires }}
+</p>
+{% endblock %}
