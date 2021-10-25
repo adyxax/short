@@ -1,13 +1,9 @@
 {% extends "templates/partials/master.html" %}
 {% block content %}
-<h1>URL shortener</h1>
-<p>
-The simple, open source and privacy friendly URL shortener : anonymous usage, no tracking.<br>
-This is a personal sharing service: Data may be deleted anytime. Don't share illegal, unethical or morally reprehensible content.
-</p>
+<h1>Shorten a URL</h1>
 <form action="/" method="post">
-	<label for="title">Title:</label><input class="fullwidth" type="text" placeholder="Enter a title here" name="title" value="{{ $req.Title }}" minlength="3" maxlength="64" required autofocus><br>
-	<label for="url">URL:</label><input class="fullwidth" type="url" placeholder="Enter the URL to shorten here" name="url" value="{{ $req.Url }}" minlength="3" maxlength="512" required><br>
+	<input class="fullwidth" type="text" placeholder="Enter a title here" name="title" value="{{ $req.Title }}" minlength="3" maxlength="64" required autofocus><br>
+	<input class="fullwidth" type="url" placeholder="Enter the URL to shorten here" name="url" value="{{ $req.Url }}" minlength="3" maxlength="512" required><br>
 	<label for="expires">Expires in:</label>
 	<select id="expires" name="expires">
 		<option value="5">5 minutes</option>

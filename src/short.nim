@@ -24,6 +24,9 @@ func renderIndex(): string {.raises: [].} =
   var req: ShortUrl
   compileTemplateFile(getScriptDir() / "templates/index.html")
 
+func renderAbout(): string {.raises: [].} =
+  compileTemplateFile(getScriptDir() / "templates/about.html")
+
 func renderShort(req: ShortUrl): string {.raises: [].} =
   compileTemplateFile(getScriptDir() / "templates/short.html")
 
@@ -96,6 +99,8 @@ proc handleIndexPost(params: Table[string, string]): (HttpCode, string) {.raises
 routes:
   get "/":
     resp renderIndex()
+  get "/about":
+    resp renderAbout()
   post "/":
     initDB()
     var (code, content) = handleIndexPost(request.params)

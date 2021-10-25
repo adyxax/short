@@ -66,17 +66,36 @@ a:hover {
 h1 {
 	color: #cb4b16;
 }
-h2,
-h3,
-h4,
-h5,
-h6 {
-	color: #859900;
-}
-pre {
+
+header {
 	background-color: #002b36;
-	color: #839496;
 }
-pre, code {
-	background-color: #002b36;
+header nav ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	font-size: 1.25rem;
+}
+header nav ul li {
+	display: inline;
+	float: right;
+}
+header nav ul li a {
+	display: block;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+}
+header nav ul li a:hover {
+	background-color: #073642;
+}
+.nav-menu-title {
+	float: left;
+	text-transform: uppercase;
+	font-weight: 700;
+	margin-right: 4px;
+}
+.nav-menu-margin-left {
+	margin-left: 4px;
 }
