@@ -15,7 +15,7 @@ var db {.threadvar.}: DbConn
 
 proc initDB() {.raises: [SqliteError].}=
   if not db.isOpen():
-    db = openDatabase("short.db")
+    db = openDatabase("data/short.db")
     if not db.Migrate():
       echo "Failed to migrate database schema"
       quit 1
