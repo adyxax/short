@@ -11,6 +11,6 @@ bin           = @["short"]
 # Dependencies
 
 requires "nim >= 1.4.8",
-         "jester > 0.5.0",
+         "https://github.com/dom96/jester#HEAD",
          "nimja >= 0.4.1",
-         "tiny_sqlite > 0.1.2"
+         "https://github.com/GULPF/tiny_sqlite#HEAD"
