@@ -22,7 +22,7 @@ const migrations = [
 const latestVersion = migrations.len
 
 proc Migrate*(db: DbConn): bool {.raises: [].} =
-  var currentVersion : int
+  var currentVersion: int
   try:
     currentVersion = db.value("SELECT version FROM schema_version;").get().fromDbValue(int)
   except SqliteError:

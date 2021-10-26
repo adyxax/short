@@ -13,7 +13,7 @@ const favicon = staticRead("../static/favicon.ico")
 
 var db {.threadvar.}: DbConn
 
-proc initDB() {.raises: [SqliteError].}=
+proc initDB() {.raises: [SqliteError].} =
   if not db.isOpen():
     db = openDatabase("data/short.db")
     if not db.Migrate():
@@ -36,7 +36,7 @@ func renderNoShort(req: ShortUrl): string {.raises: [].} =
 func renderError(code: int, msg: string): string {.raises: [].} =
   compileTemplateFile(getScriptDir() / "templates/error.html")
 
-proc handleToken(token:string): (HttpCode, string) {.raises: [].} =
+proc handleToken(token: string): (HttpCode, string) {.raises: [].} =
   try:
     let tokenRegexp = re"^[\w]{24}$"
     if not match(token, tokenRegexp):
@@ -89,7 +89,7 @@ proc handleIndexPost(params: Table[string, string]): (HttpCode, string) {.raises
     return (Http400, renderError(400, "Bad Request"))
   input.Token = $genOid()
   input.Created = times.now()
-  input.Expires = input.Created + initDuration(minutes=exp)
+  input.Expires = input.Created + initDuration(minutes = exp)
   try:
     db.AddUrl(input)
   except SqliteError:

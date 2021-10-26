@@ -2,7 +2,7 @@ include ../src/database
 
 import unittest
 
-const someTime = initDuration(seconds=1)
+const someTime = initDuration(seconds = 1)
 let testingNow = times.now() - 60 * someTime
 let later = testingNow + 30 * someTime
 
