@@ -1,16 +1,19 @@
 <!doctype html>
 <html class="no-js" lang="en">
 	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="icon" href="/static/favicon.ico">
 		<link rel="stylesheet" href="{{ $cssRoute }}">
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<title>short.adyxax.org</title>
 	</head>
 	<body>
-		{% importnwt "templates/partials/nav.html" %}
+		<header>
+			{% importnwt "templates/partials/nav.html" %}
+		</header>
 		<main id="main">
+			<hr>
 			{% block content %}{% endblock %}
 		</main>
 		{% importnwt "templates/partials/footer.html" %}

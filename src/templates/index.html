@@ -2,10 +2,9 @@
 {% block content %}
 <h1>Shorten a URL</h1>
 <form action="/" method="post">
-	<input class="fullwidth" type="text" placeholder="Enter a title here" name="title" value="{{ $req.Title }}" minlength="3" maxlength="64" required autofocus><br>
-	<input class="fullwidth" type="url" placeholder="Enter the URL to shorten here" name="url" value="{{ $req.Url }}" minlength="3" maxlength="512" required><br>
-	<label for="expires">Expires in:</label>
-	<select id="expires" name="expires">
+	<label>Title:<input name="title" value="{{ $req.Title }}" minlength="3" maxlength="64" required autofocus type="text" placeholder="Enter a title here"></label>
+	<label>URL:<input type="url" placeholder="Enter the URL to shorten here" name="url" value="{{ $req.Url }}" minlength="3" maxlength="512" required></label>
+	<label>Expires in:<select name="expires">
 		<option value="5">5 minutes</option>
 		<option value="10">10 minutes</option>
 		<option value="60">1 hour</option>
@@ -14,9 +13,7 @@
 		<option value="44640">1 month</option>
 		<option value="263520">6 months</option>
 		<option value="527040">1 year</option>
-	</select>
-	<input type="submit" value="shorten">
+	</select></label>
+	<button type="submit">shorten</button>
 </form>
-<ul>
-</ul>
 {% endblock %}
