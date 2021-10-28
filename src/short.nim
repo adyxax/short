@@ -63,7 +63,6 @@ proc handleIndexPost(params: Table[string, string]): (HttpCode, string) {.raises
           if match(v, titleRegexp):
             input.Title = v
           else:
-            echo "title"
             return (Http400, renderError(400, "Bad Request"))
         except RegexError:
           return (Http500, renderError(500, "RegexError"))
@@ -72,7 +71,6 @@ proc handleIndexPost(params: Table[string, string]): (HttpCode, string) {.raises
           discard parseUri(v)
           input.Url = v
         except:
-          echo "url"
           return (Http400, renderError(400, "Bad Request"))
       of "expires":
         try:
@@ -80,12 +78,10 @@ proc handleIndexPost(params: Table[string, string]): (HttpCode, string) {.raises
         except ValueError:
           return (Http400, renderError(400, "Bad Request"))
         if exp < 1 or exp > 527040:
-          echo "exp"
           return (Http400, renderError(400, "Bad Request"))
       of "shorten": discard
       else: return (Http400, renderError(400, "Bad Request"))
   if input.Title == "" or input.Url == "" or exp == 0:
-    echo "empty"
     return (Http400, renderError(400, "Bad Request"))
   input.Token = $genOid()
   input.Created = times.now()
@@ -117,4 +113,5 @@ routes:
     var (code, content) = handleToken(@"token")
     resp code, content
 
-runForever()
+when isMainModule:
+  runForever()
