@@ -11,7 +11,7 @@
     --color-link: #b58900;
     --color-secondary: #eee8d5;
     --color-secondary-accent: #fdf6e3;
-    --color-shadow: #eee8d5;
+    --color-shadow: #93a1a1;
     --color-table: #859900;
     --color-text: #839496;
     --color-text-secondary: #93a1a1;
@@ -20,10 +20,6 @@
     --justify-important: center;
     --justify-normal: left;
     --line-height: 1.5;
-    --width-card: 285px;
-    --width-card-medium: 460px;
-    --width-card-wide: 800px;
-    --width-content: 1080px;
 }
 
 * {
@@ -42,7 +38,8 @@ body {
     color: var(--color-text);
     font-family: var(--font-family);
     line-height: var(--line-height);
-    margin: 0;
+    margin: 0 auto;
+    max-width: 60rem;
     overflow-x: hidden;
     padding: 0;
     font-feature-settings: "kern" 1;
@@ -64,7 +61,7 @@ header {
 }
 
 hr {
-    background-color: var(--color-bg-secondary);
+    background-color: var(--color-accent);
     border: none;
     height: 1px;
     margin: 1rem 0;
@@ -92,7 +89,6 @@ section aside {
     box-shadow: var(--box-shadow) var(--color-shadow);
     margin: 1rem;
     padding: 1.25rem;
-    width: var(--width-card);
 }
 
 section aside:hover {
@@ -120,10 +116,6 @@ header a i,
 header a strong {
     margin-left: 0.5rem;
     margin-right: 0.5rem;
-}
-
-header nav img {
-    margin: 1rem 0;
 }
 
 section header {
@@ -227,21 +219,23 @@ ul li {
 }
 
 p {
+    hyphens: auto;
     margin: 0.75rem 0;
+    overflow-wrap: anywhere;
     padding: 0;
+    text-align: justify;
+    text-justify: inter-character;
     width: 100%;
 }
 
 pre {
     margin: 1rem 0;
-    max-width: var(--width-card-wide);
     padding: 1rem 0;
 }
 
 pre code,
 pre samp {
     display: block;
-    max-width: var(--width-card-wide);
     padding: 0.5rem 2rem;
     white-space: pre-wrap;
 }
@@ -361,8 +355,6 @@ form {
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow) var(--color-shadow);
     display: block;
-    max-width: var(--width-card-wide);
-    min-width: var(--width-card-wide);
     padding: 1.5rem;
     text-align: var(--justify-normal);
 }
@@ -381,7 +373,6 @@ select,
 textarea {
     display: block;
     font-size: inherit;
-    max-width: var(--width-card-wide);
 }
 
 input[type="checkbox"],
@@ -467,7 +458,6 @@ blockquote {
     font-size: x-large;
     line-height: var(--line-height);
     margin: 1rem auto;
-    max-width: var(--width-card-medium);
     padding: 1.5rem 1rem;
     text-align: var(--justify-important);
 }

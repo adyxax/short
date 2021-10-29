@@ -10,6 +10,7 @@ import database
 const allCss = staticRead("../static/all.css")
 const cssRoute = "/static/all.css." & $hash(allCss)
 const favicon = staticRead("../static/favicon.ico")
+const faviconSvg = staticRead("../static/favicon.svg")
 
 var db {.threadvar.}: DbConn
 
@@ -106,6 +107,8 @@ routes:
       redirect("/" & content)
   get "/static/favicon.ico":
     resp Http200, {"content-type": "image/x-icon"}, favicon
+  get "/static/favicon.svg":
+    resp Http200, {"content-type": "image/svg+xml"}, faviconSvg
   get re"^/static/all\.css\.":
     resp Http200, {"content-type": "text/css"}, allcss
   get "/@token":
