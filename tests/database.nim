@@ -11,7 +11,7 @@ suite "database":
     let db = openDatabase(":memory:")
     check db.Migrate() == true
     let u = ShortUrl(
-      Token: "token",
+      Token: parseUUID("ca69c4b5-75a7-4acc-8384-316d41ef59c7"),
       Title: "title",
       Url: "url",
       Created: testingNow,
@@ -25,17 +25,17 @@ suite "database":
       discard
     var u2 = db.GetUrl(u.Token)
     check u2.ID == 1
-    check u2.Token == "token"
+    check u2.Token == u.Token
     check u2.Title == "title"
     check u2.Url == "url"
     check u2.Created - testingNow < someTime
     check u2.Expires - later < someTime
     db.CleanExpired()
     try:
-      discard db.GetUrl("token")
+      discard db.GetUrl(u.Token)
     except SqliteError:
       check false
     u2.Expires = testingNow + 120 * someTime
     db.AddUrl(u2[])
     db.CleanExpired()
-    check db.GetUrl("token") != nil
+    check db.GetUrl(u.Token) != nil

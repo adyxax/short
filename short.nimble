@@ -13,7 +13,8 @@ bin           = @["short"]
 requires "nim >= 1.4.8",
          "https://github.com/dom96/jester#HEAD",
          "nimja >= 0.4.1",
-         "https://github.com/GULPF/tiny_sqlite#HEAD"
+         "https://github.com/GULPF/tiny_sqlite#HEAD",
+         "uuids >= 0.1.11"
 
 import os, strformat
 
