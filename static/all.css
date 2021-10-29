@@ -56,6 +56,12 @@ main {
     max-width: var(--width-content);
     padding: 0;
 }
+footer {
+    margin-top: 2.5rem;
+}
+header {
+    margin-top: 1rem;
+}
 
 hr {
     background-color: var(--color-bg-secondary);
@@ -135,6 +141,7 @@ nav {
 
 nav ul {
     list-style: none;
+    margin: 0;
     padding: 0;
 }
 
