@@ -23,6 +23,8 @@ const secureHeaders = @[
   ("Permissions-Policy", "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"),
   ("Strict-Transport-Security", "max-age=16000000;"),
 ]
+const nonCachingHeaders = concat(secureHeaders, @[("Cache-Control", "max-age=0" )])
+const htmlHeaders = concat(nonCachingHeaders, @[("content-type", "text/html")])
 const cachingHeaders = concat(secureHeaders, @[("Cache-Control", "public, max-age=31536000, immutable" )])
 const cssHeaders = concat(cachingHeaders, @[("content-type", "text/css")])
 const icoHeaders = concat(cachingHeaders, @[("content-type", "image/x-icon")])
@@ -115,14 +117,14 @@ proc handleIndexPost(params: Table[string, string]): (HttpCode, string) {.raises
 
 routes:
   get "/":
-    resp renderIndex()
+    resp Http200, htmlHeaders, renderIndex()
   get "/about":
-    resp renderAbout()
+    resp Http200, htmlHeaders, renderAbout()
   post "/":
     initDB()
     var (code, content) = handleIndexPost(request.params)
     if code != Http200:
-      resp code, content
+      resp code, htmlHeaders, content
     else:
       redirect("/" & content)
   get "/static/favicon.ico":
@@ -134,7 +136,7 @@ routes:
   get "/@token":
     initDB()
     var (code, content) = handleToken(@"token")
-    resp code, content
+    resp code, htmlHeaders, content
 
 when isMainModule:
   runForever()
