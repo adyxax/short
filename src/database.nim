@@ -1,4 +1,4 @@
-import std / [options, times]
+import std / [options, strformat, times]
 
 import tiny_sqlite
 import uuids
@@ -7,9 +7,6 @@ import dbUtils
 
 const migrations = [
   """
-  CREATE TABLE schema_version (
-    version INTEGER NOT NULL
-  );
   CREATE TABLE url (
     id INTEGER PRIMARY KEY,
     token TEXT NOT NULL UNIQUE,
@@ -26,7 +23,7 @@ const latestVersion = migrations.len
 proc Migrate*(db: DbConn): bool {.raises: [].} =
   var currentVersion: int
   try:
-    currentVersion = db.value("SELECT version FROM schema_version;").get().fromDbValue(int)
+    currentVersion = db.value("PRAGMA user_version").get().fromDbValue(int)
   except SqliteError:
     discard
   if currentVersion != latestVersion:
@@ -34,9 +31,8 @@ proc Migrate*(db: DbConn): bool {.raises: [].} =
       db.exec("BEGIN")
       for v in currentVersion..<latestVersion:
         db.execScript(migrations[v])
-      db.exec("DELETE FROM schema_version;")
-      db.exec("INSERT INTO schema_version (version) VALUES (?);", latestVersion)
-      db.exec("COMMIT;")
+      db.exec(&"PRAGMA user_version={latestVersion}")
+      db.exec("COMMIT")
     except:
       let msg = getCurrentExceptionMsg()
       echo msg
