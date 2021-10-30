@@ -1,5 +1,5 @@
 import os, strutils
-import std/[hashes, re, times, uri]
+import std/[hashes, re, sequtils, times, uri]
 
 import tiny_sqlite
 import jester
@@ -12,6 +12,21 @@ const allCss = staticRead("../static/all.css")
 const cssRoute = "/static/all.css." & $hash(allCss)
 const favicon = staticRead("../static/favicon.ico")
 const faviconSvg = staticRead("../static/favicon.svg")
+
+const secureHeaders = @[
+  ("X-Frame-Options", "deny"),
+  ("X-XSS-Protection", "1; mode=block"),
+  ("X-Content-Type-Options", "nosniff"),
+  ("Referrer-Policy", "strict-origin"),
+  ("Cache-Control", "no-transform"),
+  ("Content-Security-Policy", "script-src 'self'"),
+  ("Permissions-Policy", "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"),
+  ("Strict-Transport-Security", "max-age=16000000;"),
+]
+const cachingHeaders = concat(secureHeaders, @[("Cache-Control", "public, max-age=31536000, immutable" )])
+const cssHeaders = concat(cachingHeaders, @[("content-type", "text/css")])
+const icoHeaders = concat(cachingHeaders, @[("content-type", "image/x-icon")])
+const svgHeaders = concat(cachingHeaders, @[("content-type", "image/svg+xml")])
 
 var db {.threadvar.}: DbConn
 
@@ -111,11 +126,11 @@ routes:
     else:
       redirect("/" & content)
   get "/static/favicon.ico":
-    resp Http200, {"content-type": "image/x-icon"}, favicon
+    resp Http200, icoHeaders, favicon
   get "/static/favicon.svg":
-    resp Http200, {"content-type": "image/svg+xml"}, faviconSvg
+    resp Http200, svgHeaders, faviconSvg
   get re"^/static/all\.css\.":
-    resp Http200, {"content-type": "text/css"}, allcss
+    resp Http200, cssHeaders, allcss
   get "/@token":
     initDB()
     var (code, content) = handleToken(@"token")
