@@ -1,7 +1,7 @@
 import std / [options, times]
 
 import tiny_sqlite
-import uuids
+import nanoid
 
 import dbUtils
 
@@ -49,7 +49,7 @@ proc Migrate*(db: DbConn): bool {.raises: [].} =
 
 type ShortUrl* = object
   ID*: int
-  Token*: UUID
+  Token*: string
   Title*: string
   Url*: string
   Created*: DateTime
@@ -60,11 +60,11 @@ proc AddUrl*(db: DbConn, url: ShortUrl) {.raises: [SqliteError].} =
     INSERT INTO url(token, title, url, created, expires)
     VALUES (?, ?, ?, ?, ?);
   """)
-  stmt.exec($url.Token, url.Title, url.Url, url.Created, $url.Expires)
+  stmt.exec(url.Token, url.Title, url.Url, url.Created, $url.Expires)
 
-proc GetUrl*(db: DbConn, token: UUID): ref ShortUrl {.raises: [SqliteError].} =
+proc GetUrl*(db: DbConn, token: string): ref ShortUrl {.raises: [SqliteError].} =
   let stmt = db.stmt("SELECT id, title, url, created, expires FROM url WHERE token = ?")
-  for row in stmt.iterate($token):
+  for row in stmt.iterate(token):
     new(result)
     result.ID = row[0].fromDbValue(int)
     result.Token = token

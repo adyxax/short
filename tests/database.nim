@@ -11,7 +11,7 @@ suite "database":
     let db = openDatabase(":memory:")
     check db.Migrate() == true
     let u = ShortUrl(
-      Token: parseUUID("ca69c4b5-75a7-4acc-8384-316d41ef59c7"),
+      Token: "Az0f8uSeK9",
       Title: "title",
       Url: "url",
       Created: testingNow,

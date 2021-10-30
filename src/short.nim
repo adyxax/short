@@ -4,9 +4,12 @@ import std/[hashes, re, sequtils, times, uri]
 import tiny_sqlite
 import jester
 import nimja/parser
-import uuids
+import nanoid
 
 import database
+
+const nanoidAlphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+const nanoidSize = 10
 
 const allCss = staticRead("../static/all.css")
 const cssRoute = "/static/all.css." & $hash(allCss)
@@ -55,12 +58,13 @@ func renderNoShort(req: ShortUrl): string {.raises: [].} =
 func renderError(code: int, msg: string): string {.raises: [].} =
   compileTemplateFile(getScriptDir() / "templates/error.html")
 
-proc handleToken(tokenStr: string): (HttpCode, string) {.raises: [].} =
-  var token: UUID
+proc handleToken(token: string): (HttpCode, string) {.raises: [].} =
   try:
-    token = parseUUID(tokenStr)
-  except ValueError:
-    return (Http400, renderError(400, "Bad Request"))
+    let tokenRegexp = re"^[\w]{10}$"
+    if not match(token, tokenRegexp):
+      return (Http400, renderError(400, "Bad Request"))
+  except RegexError:
+    return (Http500, renderError(500, "RegexError"))
   db.CleanExpired()
   try:
     let req = db.GetUrl(token)
@@ -102,11 +106,11 @@ proc handleIndexPost(params: Table[string, string]): (HttpCode, string) {.raises
   if input.Title == "" or input.Url == "" or exp == 0:
     return (Http400, renderError(400, "Bad Request"))
   try:
-    input.Token = genUUID()
+    input.Token = generate(alphabet=nanoidAlphabet, size=nanoidSize)
   except IOError:
-    return (Http500, renderError(500, "IOError on genUUID"))
+    return (Http500, renderError(500, "IOError on UUID generation"))
   except OSError:
-    return (Http500, renderError(500, "OSError on genUUID"))
+    return (Http500, renderError(500, "OSError on UUID generation"))
   input.Created = times.now()
   input.Expires = input.Created + initDuration(minutes = exp)
   try:
