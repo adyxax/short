@@ -1,7 +1,6 @@
 import std / [options, times]
 
 import tiny_sqlite
-import nanoid
 
 import dbUtils
 

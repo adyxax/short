@@ -3,7 +3,9 @@
 <h1>{{ $req.Title }}</h1>
 <p><a href="{{ $req.Url }}">{{ $req.Url }}</a></p>
 <p>
-Created on : {{ $req.Created }}<br>
-Expires on : {{ $req.Expires }}
+{% let created = req.Created.format("yyyy-MM-dd") %}
+{% let expires = req.Expires.format("yyyy-MM-dd") %}
+Created on : {{ $created }}<br>
+Expires on : {{ $expires }}
 </p>
 {% endblock %}
