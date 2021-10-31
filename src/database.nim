@@ -18,6 +18,21 @@ const migrations = [
     expires DATE
   );
   CREATE UNIQUE INDEX idx_url_token ON url(token);
+  """,
+  """
+  CREATE TABLE url2 (
+    id INTEGER PRIMARY KEY,
+    token TEXT NOT NULL UNIQUE,
+    title TEXT NOT NULL,
+    url TEXT NOT NULL,
+    created DATE NOT NULL,
+    expires DATE NOT NULL
+  );
+  INSERT INTO url2(id, token, title, url, created, expires)
+  SELECT id, token, title, url, created, expires FROM url;
+  DROP TABLE url;
+  ALTER TABLE url2 RENAME TO url;
+  CREATE UNIQUE INDEX idx_url_token ON url(token);
   """
 ]
 const latestVersion = migrations.len
