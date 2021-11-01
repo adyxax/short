@@ -38,9 +38,6 @@ var db {.threadvar.}: DbConn
 proc initDB() {.raises: [SqliteError].} =
   if not db.isOpen():
     db = openDatabase("data/short.db")
-    if not db.Migrate():
-      echo "Failed to migrate database schema"
-      quit 1
 
 func renderIndex(): string {.raises: [].} =
   var req: ShortUrl
@@ -143,4 +140,9 @@ routes:
     resp code, htmlHeaders, content
 
 when isMainModule:
+  initDb()
+  if not db.Migrate():
+    echo "Failed to migrate database schema"
+    quit 1
+  db.close()
   runForever()
